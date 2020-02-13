@@ -6,6 +6,7 @@ const formidable = require('formidable')
 const { audioConvert } = require('./convert')
 const { csr } = require('./csr');
 const config = require('./config');
+const voiceRecognitor = require('./pythonModules/voiceRecognition');
 const fileDir = config.fileDir;
 const language = config.laguage;
 
@@ -27,7 +28,12 @@ app.post('./traning', async (req, res) => {
             if (files.audio.isFinish) {
                 for (let [key, value] of Object.entries(files.audio.fileNames)) {
                     //        Write python Modules
+                    // 디렉토리 변수 이름은 임의임
+                    var option = voiceRecognitor.setArgumentsInOptionsForVoiceRecognition(Device_ID, key, value);
+                    voiceRecognitor.ClassifySpeakersSoundFile(option)
                 }
+                //for문 나와도 option이 살아있다는 가정임
+                voiceRecognitor.startRecognitionTraining(option)
             }
 
 
