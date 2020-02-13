@@ -15,7 +15,7 @@ app = express()
 app.post('./traning', async (req, res) => {
     const form = new formidable.IncomingForm();
     form.uploadDir = fileDir;
-    form.keepExtensions = true;   
+    form.keepExtensions = true;
 
     await form.parse(req, async (err, fields, files) => {
         try {
@@ -24,10 +24,12 @@ app.post('./traning', async (req, res) => {
 
             outputFileName = await audioConvert.convertRecordingFile(fileName, form.uploadDir);
             outputFilePath = form.uploadDir.concat(outputFileName);
+            if (files.audio.isFinish) {
+                for (let [key, value] of Object.entries(files.audio.fileNames)) {
+                    //        Write python Modules
+                }
+            }
 
-            /* 
-                Write MFCC Algorithm
-            */
 
             res.sendStatus(201);
         } catch (error) {
