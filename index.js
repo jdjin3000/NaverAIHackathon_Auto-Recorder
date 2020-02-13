@@ -29,11 +29,9 @@ app.post('./traning', async (req, res) => {
                 for (let [key, value] of Object.entries(files.audio.fileNames)) {
                     //        Write python Modules
                     // 디렉토리 변수 이름은 임의임
-                    var option = voiceRecognitor.setArgumentsInOptionsForVoiceRecognition(Device_ID, key, value);
-                    voiceRecognitor.ClassifySpeakersSoundFile(option)
+                    voiceRecognitor.ClassifySpeakersSoundFile(Device_ID, key, value)
                 }
-                //for문 나와도 option이 살아있다는 가정임
-                voiceRecognitor.startRecognitionTraining(option)
+                voiceRecognitor.startRecognitionTraining(Device_ID)
             }
 
 
