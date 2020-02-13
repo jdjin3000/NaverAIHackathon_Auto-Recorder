@@ -13,7 +13,7 @@ module.exports.ClassifySpeakersSoundFile = function (deviceID, speakerDiscrimina
 		if (err) 
 			throw err;
 		else
-			console.log(" Completed Successfully!");
+			console.log(String(speakerDiscriminator) + " is Stored Successfully!");
 	});
 }
 
