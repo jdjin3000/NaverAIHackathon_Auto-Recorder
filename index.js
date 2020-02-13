@@ -12,6 +12,31 @@ const language = config.laguage;
 
 app = express()
 
+app.post('./traning', async (req, res) => {
+    const form = new formidable.IncomingForm();
+    form.uploadDir = fileDir;
+    form.keepExtensions = true;   
+
+    await form.parse(req, async (err, fields, files) => {
+        try {
+            var filePath = files.audio.path.split('\\')
+            var fileName = filePath[filePath.length - 1]
+
+            outputFileName = await audioConvert.convertRecordingFile(fileName, form.uploadDir);
+            outputFilePath = form.uploadDir.concat(outputFileName);
+
+            /* 
+                Write MFCC Algorithm
+            */
+
+            res.sendStatus(201);
+        } catch (error) {
+            console.log(error)
+        }
+    });
+
+})
+
 
 app.post('/voice', async (req, res) => {
     const form = new formidable.IncomingForm();
