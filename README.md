@@ -1,6 +1,6 @@
 "# NaverAIHackathon_Auto-Recorder" 
 
-Clova Speech Recognition 을 활용한 녹취록 작성을 도와주는 모바일 어플리케이션입니다.
+> Clova Speech Recognition 을 활용한 녹취록 작성을 도와주는 모바일 어플리케이션입니다.
 
 녹취 전 발언자 식별을 하기 위해 테스트 녹음을 진행 한 후 녹취에 들어갑니다.
 
@@ -13,14 +13,19 @@ Clova Speech Recognition을 통해 음성데이터를 텍스트로 변환하여 
 
 👨‍👦 Contribution
 
-##기획
+**기획**
 임동준, 정동진
 
-##프론트엔드(React Native)
+### 프론트엔드(React Native)
 임동준
 
-##백엔드(Node.js)
+## 백엔드(Node.js)
 임동준, 정동진
 
-##MFCC Filtering
+## MFCC Filtering
 정동진
+
+시나리오
+![시스템 시나리오.png]({{site.baseurl}}/시스템 시나리오.png)
+
+
