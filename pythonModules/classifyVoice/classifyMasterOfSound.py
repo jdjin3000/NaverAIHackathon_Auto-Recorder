@@ -6,10 +6,10 @@ argvs = []
 argvs.append(sys.argv[1])	#	DiviceId (Phone)
 argvs.append(sys.argv[2])	#	File's name
 
-interviewFileDir = '../../FullInterviewData'
+interviewFileDir = './FullInterviewData'
 voiceFileDir = './voiceData'
 
-final_loc = os.path.join(os.path.join(os.path.join(interviewFileDir, argvs[0]),'sperated'), argvs[1])#각 폴더 내부에 sperated 폴더를 만들어 분할파일을 저장할 것이다.
+final_loc = os.path.join(os.path.join(os.path.join(interviewFileDir, argvs[0]),'seperated'), argvs[1])#각 폴더 내부에 sperated 폴더를 만들어 분할파일을 저장할 것이다.
 trained_data_loc = os.path.join(os.path.join(voiceFileDir, argvs[0]), "svmSMtemp")
 
 
