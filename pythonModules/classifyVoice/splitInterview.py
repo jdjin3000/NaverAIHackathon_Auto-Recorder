@@ -2,6 +2,7 @@ import sys
 import os
 import shutil
 import librosa
+import math
 
 argvs = []
 argvs.append(sys.argv[1])	#	DiviceId (Phone)
@@ -17,7 +18,7 @@ for findwav in os.listdir(interviewFileDir):
 
 y, sr = librosa.load(os.path.join(interviewFileDir, fileName), sr=16000)
 
-os.system("ffmpeg -i " + fileName + " -af silencedetect=noise=-30dB:d=0.5 -f null - 2> "+os.path.join(interviewFileDir, "silence_logs.txt"))
+os.system("ffmpeg -i " + os.path.join(interviewFileDir, fileName) + " -af silencedetect=noise=-30dB:d=0.3 -f null - 2> "+os.path.join(interviewFileDir, "silence_logs.txt"))
 
 with open(os.path.join(interviewFileDir, "silence_logs.txt"), 'r') as silenceDetecter:
 	silenceLog = []
@@ -37,5 +38,5 @@ with open(os.path.join(interviewFileDir, "silence_logs.txt"), 'r') as silenceDet
 			finish_with_sr = math.floor(finish_Time * sr)
 			print(start_with_sr)
 
-			librosa.output.write_wav(interviewFileDir + '/cutted_' + fileName + '_' + str(start_Time) +'.wav', y[start_with_sr:finish_with_sr], sr)
+			librosa.output.write_wav(interviewFileDir + '/seperated/cutted_' + fileName + '_' + str(start_Time) +'.wav', y[start_with_sr:finish_with_sr], sr)
 

@@ -8,7 +8,8 @@ const formidable = require('formidable')
 const { audioConvert } = require('./convert')
 const { csr } = require('./csr');
 const config = require('./config');
-const voiceRecognitor = require('./pythonModules/voiceRecognition');
+const arrangeSoundFiles = require('./pythonModules/voiceRecognition');
+const soundClassifier = require('./pythonModules/classifyVoice/classifyVoices');
 const fileDir = config.fileDir;
 const language = config.laguage;
 const users = {};
@@ -52,10 +53,11 @@ app.post('/training', async (req, res) => {
                 }
                 users[sessionId].forEach((i)=> {
                     console.log("반복문: " + i);
-                    voiceRecognitor.ClassifySpeakersSoundFile(sessionId, i['userNumber'], i['path']);
+                    console.log(i['path']);
+                    arrangeSoundFiles.ClassifySpeakersSoundFile(sessionId, i['userNumber'], i['path']);
                 });
                 console.log('트레이닝 스타트');
-                voiceRecognitor.startRecognitionTraining(sessionId);
+                arrangeSoundFiles.startRecognitionTraining(sessionId);
                 
                 console.log('트레이닝 종료');
             }
@@ -85,13 +87,10 @@ app.post('/voice', async (req, res) => {
 
             outputFileName = await audioConvert.convertRecordingFile(fileName, form.uploadDir);
             outputFilePath = form.uploadDir.concat(outputFileName);
+            arrangeSoundFiles.moveFullInterview(sessionId, outputFilePath);
 
-
-
-
-            /* 
-                Write MFCC Algorithm
-            */
+            soundClassifier.splitInterview(sessionId);
+            soundClassifier.classifyMasterOfSound(sessionId);
 
             console.log(fields);
             await csr.stt(language, outputFilePath, (body) => {

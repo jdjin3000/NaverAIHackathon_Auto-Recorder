@@ -7,7 +7,7 @@ module.exports.ClassifySpeakersSoundFile = function (deviceID, speakerDiscrimina
 		pythonOptions: ['-u'],
 		scriptPath: '',
 		args: [deviceID, speakerDiscriminator, filesNameList],
-		pythonPath: ''
+		pythonPath: 'python'
 	};
 	PythonShell.run('./pythonModules/classifySpeakersVoiceFile.py', options, function (err) {
 		if (err) 
@@ -25,7 +25,7 @@ module.exports.startRecognitionTraining = function (deviceID){
 		pythonOptions: ['-u'],
 		scriptPath: '',
 		args: [deviceID],
-		pythonPath: ''
+		pythonPath: 'python'
 	};
 
 	PythonShell.run('./pythonModules/voiceRecognitionWithSVM.py', options, function (err) {
@@ -33,5 +33,23 @@ module.exports.startRecognitionTraining = function (deviceID){
 			throw err;
 		else
 			console.log("training Completed Successfully!");
+	});
+}
+
+module.exports.moveFullInterview = function (deviceID, fileName){
+	var options = {
+		mode: 'text',
+		encoding: 'utf8',
+		pythonOptions: ['-u'],
+		scriptPath: '',
+		args: [deviceID, fileName],
+		pythonPath: 'python'
+	};
+
+	PythonShell.run('./pythonModules/moveFullInterview.py', options, function (err) {
+		if (err) 
+			throw err;
+		else
+			console.log("interview file moved Successfully!");
 	});
 }
