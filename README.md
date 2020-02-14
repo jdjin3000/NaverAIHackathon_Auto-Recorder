@@ -16,16 +16,13 @@ Clova Speech Recognition을 통해 음성데이터를 텍스트로 변환하여 
 **기획**
 임동준, 정동진
 
-### 프론트엔드(React Native)
+**프론트엔드(React Native)**
 임동준
 
-## 백엔드(Node.js)
+**백엔드(Node.js)**
 임동준, 정동진
 
-## MFCC Filtering
+**MFCC Filtering**
 정동진
-
-시나리오
-![시스템 시나리오.png]({{site.baseurl}}/시스템 시나리오.png)
 
 
