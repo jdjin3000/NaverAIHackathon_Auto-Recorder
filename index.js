@@ -8,6 +8,7 @@ const formidable = require('formidable')
 const { audioConvert } = require('./convert')
 const { csr } = require('./csr');
 const config = require('./config');
+const fs = require('fs');
 const arrangeSoundFiles = require('./pythonModules/voiceRecognition');
 const soundClassifier = require('./pythonModules/classifyVoice/classifyVoices');
 const fileDir = config.fileDir;
@@ -80,6 +81,8 @@ app.post('/voice', async (req, res) => {
     form.uploadDir = fileDir;
     form.keepExtensions = true;
     var sessionId = req.session.id;
+    var tts_list = [];
+    var tts_log = "";
     await form.parse(req, async (err, fields, files) => {
         try {
             var filePath = files.audio.path.split('\\')
@@ -93,11 +96,32 @@ app.post('/voice', async (req, res) => {
             soundClassifier.classifyMasterOfSound(sessionId);
 
             console.log(fields);
-            await csr.stt(language, outputFilePath, (body) => {
-                console.log("RESULT: " + body);
-                res.send(body)
-                return;
+
+            var files = fs.readdirSync('./FullInterviewData/' + sessionId + '/seperated');
+            files.sort( function(a, b) {
+                return parseFloat(a.split('_')[-1][:-4]) < parseFloat(b.split('_')[-1][:-4]) ? -1 : parseFloat(a.split('_')[-1][:-4]) > parseFloat(b.split('_')[-1][:-4]) ? 1 : 0;
+            })
+            for (let i = 0; i < files.length; i++){
+                await csr.stt(language, './FullInterviewData/' + sessionId + '/seperated/' + files[i], (body) => {
+                    console.log("RESULT: " + body.text);
+                    tts_list.push(body.text);
+                });
+            }
+
+            for (let i = 0; i < tts_list.length; i++){
+                tts_log += tts_list[i] + '\n'
+            }
+
+            fs.writeFile('./FullInterviewData/' + sessionId + 'tts_log.txt', tts_log, function(err){ 
+                if (err === null){ 
+                    console.log('success');
+                } 
+                else { 
+                    console.log('fail'); 
+                } 
             });
+
+
             return;
         } catch (error) {
             console.log(error)
