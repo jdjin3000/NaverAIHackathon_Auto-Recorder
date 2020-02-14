@@ -1,4 +1,4 @@
-var PythonShell = require('python-shell');
+var {PythonShell} = require('python-shell');
 
 module.exports.ClassifySpeakersSoundFile = function (deviceID, speakerDiscriminator, filesNameList){
 	var options = {
@@ -9,7 +9,7 @@ module.exports.ClassifySpeakersSoundFile = function (deviceID, speakerDiscrimina
 		args: [deviceID, speakerDiscriminator, filesNameList],
 		pythonPath: ''
 	};
-	PythonShell.run('classifySpeakersVoiceFile.py', options, function (err) {
+	PythonShell.run('./pythonModules/classifySpeakersVoiceFile.py', options, function (err) {
 		if (err) 
 			throw err;
 		else
