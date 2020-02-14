@@ -1,4 +1,5 @@
 var {PythonShell} = require('python-shell');
+const soundClassifier = require('./classifyVoice/classifyVoices');
 
 module.exports.ClassifySpeakersSoundFile = function (deviceID, speakerDiscriminator, filesNameList){
 	var options = {
@@ -49,7 +50,9 @@ module.exports.moveFullInterview = function (deviceID, fileName){
 	PythonShell.run('./pythonModules/moveFullInterview.py', options, function (err) {
 		if (err) 
 			throw err;
-		else
+		else{
 			console.log("interview file moved Successfully!");
+			soundClassifier.splitInterview(deviceID);
+		}
 	});
 }

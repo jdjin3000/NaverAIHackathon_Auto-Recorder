@@ -16,4 +16,4 @@ if not os.path.exists(os.path.join(interviewFileDir, argvs[0])):
 if not os.path.exists(os.path.join(os.path.join(interviewFileDir, argvs[0]),'seperated')):
 	os.mkdir(os.path.join(os.path.join(interviewFileDir, argvs[0]),'seperated'))
 
-shutil.copy(os.path.join(tempFileDir, argvs[1].split('/')[-1]), os.path.join(os.path.join(interviewFileDir, argvs[0]), 'seperated'))
+shutil.copy(os.path.join(tempFileDir, argvs[1].split('/')[-1]), os.path.join(interviewFileDir, argvs[0]))

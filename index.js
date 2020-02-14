@@ -6,6 +6,7 @@ const FileStore = require('session-file-store')(session);
 //const upload = multer({ dest: 'upload/' })
 const formidable = require('formidable')
 const { audioConvert } = require('./convert')
+const path = require('path');
 const { csr } = require('./csr');
 const config = require('./config');
 const fs = require('fs');
@@ -90,17 +91,20 @@ app.post('/voice', async (req, res) => {
 
             outputFileName = await audioConvert.convertRecordingFile(fileName, form.uploadDir);
             outputFilePath = form.uploadDir.concat(outputFileName);
-            arrangeSoundFiles.moveFullInterview(sessionId, outputFilePath);
-
-            soundClassifier.splitInterview(sessionId);
-            soundClassifier.classifyMasterOfSound(sessionId);
+            
+            await arrangeSoundFiles.moveFullInterview(sessionId, outputFilePath);
+            //soundClassifier.splitInterview(sessionId);
 
             console.log(fields);
 
-            var files = fs.readdirSync('./FullInterviewData/' + sessionId + '/seperated');
-            files.sort( function(a, b) {
-                return parseFloat(a.split('_')[-1][:-4]) < parseFloat(b.split('_')[-1][:-4]) ? -1 : parseFloat(a.split('_')[-1][:-4]) > parseFloat(b.split('_')[-1][:-4]) ? 1 : 0;
-            })
+            var files = fs.readdirSync(path.join(process.cwd(), 'FullInterviewData')+'/' + sessionId + '/seperated');
+                files.sort( function(a, b) {
+                    a_num = "" + a.split('_')[-1];
+                    b_num = "" + b.split('_')[-1];
+                    
+                    return parseFloat(a_num.substring(0, a_num.length - 4)) < parseFloat(b_num.substring(0, b_num.length - 4)) ? -1 : parseFloat(a_num.substring(0, a_num.length - 4)) > parseFloat(b_num.substring(0, b_num.length - 4)) ? 1 : 0;
+            });
+
             for (let i = 0; i < files.length; i++){
                 await csr.stt(language, './FullInterviewData/' + sessionId + '/seperated/' + files[i], (body) => {
                     console.log("RESULT: " + body.text);
