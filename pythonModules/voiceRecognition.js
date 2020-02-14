@@ -28,7 +28,7 @@ module.exports.startRecognitionTraining = function (deviceID){
 		pythonPath: ''
 	};
 
-	PythonShell.run('voiceRecognitionWithSVM.py', options, function (err) {
+	PythonShell.run('./pythonModules/voiceRecognitionWithSVM.py', options, function (err) {
 		if (err) 
 			throw err;
 		else

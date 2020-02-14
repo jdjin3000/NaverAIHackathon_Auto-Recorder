@@ -9,7 +9,7 @@ module.exports.classifyMasterOfSound = function (deviceID, fileName){
 		args: [deviceID, fileName],
 		pythonPath: ''
 	};
-	PythonShell.run('classifyMasterOfSound.py', options, function (err) {
+	PythonShell.run('./pythonModules/classifyVoice/classifyMasterOfSound.py', options, function (err) {
 		if (err) 
 			throw err;
 		else
@@ -27,7 +27,7 @@ module.exports.splitInterview = function (deviceID){
 		args: [deviceID],
 		pythonPath: ''
 	};
-	PythonShell.run('splitInterview.py', options, function (err) {
+	PythonShell.run('./pythonModules/classifyVoicesplitInterview.py', options, function (err) {
 		if (err) 
 			throw err;
 		else
